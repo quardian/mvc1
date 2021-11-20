@@ -6,13 +6,27 @@ import java.io.PrintWriter;
 
 public class ServeltUtils {
 
+    public static void setNoCacheHeader(HttpServletResponse response)
+    {
+        response.setHeader("Cache-Control","no-cache, no-store, must-revalidation");
+        response.setHeader("Paragma", "no-cache");
+    }
+
     public static void setContentHtml(HttpServletResponse response){
         response.setContentType("text/html");
         response.setCharacterEncoding("utf-8");
+        setNoCacheHeader(response);
+
+    }
+
+    public static void setContentJson(HttpServletResponse response){
+        response.setContentType("application/json");
+        response.setCharacterEncoding("utf-8");
+        setNoCacheHeader(response);
     }
 
     public static void writeHtml(HttpServletResponse response, String title, String body) throws IOException {
-        PrintWriter writer = response.getWriter();
+
 
         StringBuilder sbHTML = new StringBuilder();
 
@@ -31,6 +45,7 @@ public class ServeltUtils {
 
         sbHTML.append("</html>\n");
 
+        PrintWriter writer = response.getWriter();
         writer.write( sbHTML.toString() );
     }
 

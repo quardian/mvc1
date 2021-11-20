@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.Iterator;
 
 // @ServletComponentScan 활성화시 작동함
 @WebServlet(name="requestHeaderServlet", urlPatterns = "/servlet/basic/request-header")
@@ -45,12 +46,22 @@ public class RequestHeaderServlet extends HttpServlet
         // 모든 헤더정보
         bodyHtml.append( String.format(fmtLine, "HEADER -- START") );
         Enumeration<String> headerNames = request.getHeaderNames();
+        /*
         while( headerNames.hasMoreElements()){
             String headerName  = headerNames.nextElement();
             String headerValue = request.getHeader(headerName);
 
             bodyHtml.append( String.format(fmtTag, headerName, headerValue) );
         }
+        */
+
+        // required Java 1.9 over
+        Iterator<String> headerInterator = headerNames.asIterator();
+        headerInterator.forEachRemaining(headerName -> {
+            String headerValue = request.getHeader(headerName);
+            bodyHtml.append( String.format(fmtTag, headerName, headerValue) );
+        });
+
         bodyHtml.append( String.format(fmtLine, "HEADER -- END") );
 
         // 모든 쿠키정보
