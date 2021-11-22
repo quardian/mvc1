@@ -26,6 +26,8 @@ public class MemberFormServlet extends HttpServlet
         sbHTML.append(" <button type=\"submit\">전송</button>\n");
         sbHTML.append("</form>\n");
 
+        sbHTML.append( "<a href=\"/servlet/web/member-list\">목록</a>" );
+
         ServeltUtils.writeHtml( response, "회원가입", sbHTML.toString() );
     }
 }
