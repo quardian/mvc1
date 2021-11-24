@@ -1,7 +1,7 @@
 package com.info.mvc1.frontcontroller.v2.controller;
 
 import com.info.mvc1.domain.Member;
-import com.info.mvc1.frontcontroller.domain.MyView;
+import com.info.mvc1.domain.MyView;
 import com.info.mvc1.frontcontroller.v2.ControllerV2;
 import com.info.mvc1.repository.MemberRepository;
 

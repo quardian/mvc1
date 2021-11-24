@@ -1,10 +1,14 @@
-package com.info.mvc1.frontcontroller.v3;
+package com.info.mvc1.frontcontroller.v4;
 
 import com.info.mvc1.domain.ModelView;
 import com.info.mvc1.domain.MyView;
+import com.info.mvc1.frontcontroller.v3.ControllerV3;
 import com.info.mvc1.frontcontroller.v3.controller.MemberFormControllerV3;
 import com.info.mvc1.frontcontroller.v3.controller.MemberListControllerV3;
 import com.info.mvc1.frontcontroller.v3.controller.MemberSaveControllerV3;
+import com.info.mvc1.frontcontroller.v4.controller.MemberFormControllerV4;
+import com.info.mvc1.frontcontroller.v4.controller.MemberListControllerV4;
+import com.info.mvc1.frontcontroller.v4.controller.MemberSaveControllerV4;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,33 +22,33 @@ import java.util.Map;
 /**
  * Front Controller
  */
-@WebServlet(name="frontControllerServletV3", urlPatterns = "/font-controller/v3/*")
-public class FrontControllerServletV3 extends HttpServlet {
+@WebServlet(name="frontControllerServletV4", urlPatterns = "/font-controller/v4/*")
+public class FrontControllerServletV4 extends HttpServlet {
 
-    private Map<String, ControllerV3> controllerMap = new HashMap<>();
+    private Map<String, ControllerV4> controllerMap = new HashMap<>();
 
-    public FrontControllerServletV3() {
-        controllerMap.put("/font-controller/v3/new-form", new MemberFormControllerV3());
-        controllerMap.put("/font-controller/v3/save",   new MemberSaveControllerV3());
-        controllerMap.put("/font-controller/v3/list",   new MemberListControllerV3());
+    public FrontControllerServletV4() {
+        controllerMap.put("/font-controller/v4/new-form", new MemberFormControllerV4());
+        controllerMap.put("/font-controller/v4/save",   new MemberSaveControllerV4());
+        controllerMap.put("/font-controller/v4/list",   new MemberListControllerV4());
     }
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String requestURI = request.getRequestURI();
-        ControllerV3 controller = controllerMap.get(requestURI);
+        ControllerV4 controller = controllerMap.get(requestURI);
         if ( controller == null ){
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
 
         Map<String, String> paramMap = createParamMap(request);
-        ModelView mv = controller.process(paramMap);
+        Map<String, Object> model = new HashMap<>();
+        String viewName = controller.process(paramMap, model);
 
-        String viewName = mv.getViewName(); // 논리 이름
         MyView myView   = viewResolver(viewName);
 
-        myView.render(mv.getModel(), request,response);
+        myView.render(model, request,response);
     }
 
     private MyView viewResolver(String viewName) {

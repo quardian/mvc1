@@ -1,6 +1,6 @@
 package com.info.mvc1.frontcontroller.v2;
 
-import com.info.mvc1.frontcontroller.domain.MyView;
+import com.info.mvc1.domain.MyView;
 import com.info.mvc1.frontcontroller.v2.controller.MemberFormControllerV2;
 import com.info.mvc1.frontcontroller.v2.controller.MemberListControllerV2;
 import com.info.mvc1.frontcontroller.v2.controller.MemberSaveControllerV2;

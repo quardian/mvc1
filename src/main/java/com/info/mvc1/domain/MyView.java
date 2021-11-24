@@ -1,4 +1,4 @@
-package com.info.mvc1.frontcontroller.domain;
+package com.info.mvc1.domain;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
