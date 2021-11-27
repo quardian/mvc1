@@ -12,6 +12,8 @@ import java.util.Map;
 
 /**
  * Controller Method로 통합
+ *
+ * 컨트롤러 레벨에 @RequestMapping을 하게 되면, Method 레벨의 @RequestMapping과 조합되어 URL을 결정한다.
  */
 @Controller
 @RequestMapping("/springmvc/v2/members")
