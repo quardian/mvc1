@@ -1,0 +1,39 @@
+* RequestMappingHandlerAdapter 동작 방식
+
+    1) 컨트롤러의 파라미터, 애노테이션 정보를 기반으로 전달 데이터 생성
+        HttpServeltRequest, Model, @RequestParam, @ModelAttribute, @RequestBody, HttpEntity
+
+                                    --> ArgumentResolver    --> 파라미터
+    Dispatcher  -> RequestMapping       --> 2. 호출              핸들러(컨트롤러)
+    Servlet
+                                     <-- ReturnValuehandler  <--
+                                     3. ModelAndView, @ResponseBody, HttpEntity
+
+
+* ArgumentResolver
+    애노테이션 기반의 컨트롤러는 매우 다양한 파라미터를 사용할 수 있었다.
+    HttpServeltRequest, Model, @RequestParam, @ModelAttribute, @RequestBody, HttpEntity 같은
+    파라미터를 유연하게 처리할 수 있는 이유가 바로 ArgumentResolver 덕분이다.
+
+    애노테이션 기반 컨트롤러를 처리하는 RequestMappingHandlerAdapter는 바로 이 ArgumentResolver를 호출해서
+    컨트롤러(핸들러)가 필요로 하는 다양한 파라미터의 값(객체)을 생성한다.
+    이렇게 파라미터의 갑싱 모두 준비되면 컨트롤러를 호출하면서 값을 넘겨준다.
+
+    스프링은 30개 넘는 ArgumentResolver를 기본제공한다.
+
+    HandlerMethodArgumentResolver 인터페이스
+        - boolean supportsParameters(MethodParameter parameter);
+        - Object resolveArguemtn(MethodParameter parameter, ModelAndViewContainer mavContainer,
+                                NativeWebRequest webRequest, WebDataBinderFactory binderFactory)
+
+
+* ReturnValueHandler
+
+    HandlerMethodReturnValueHandler를 줄여서 ReturnValueHandler라고 부른다.
+    ArgumentResolver와 비슷한데, 이것은 응답 값을 변환하고 처리한다.
+
+    컨트롤러에서 String으로 뷰 이름을 반환해도, 동작하는 이유가 바로 ReturnValueHandler 덕분이다.
+
+    스프링은 10여개가 넘는 ReturnValueHandler를 지원한다.
+    예) ModelAndView, @ResponseBody, HttpEntity, String
+
